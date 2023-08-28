@@ -22,6 +22,7 @@ COPY ./app /app/app
 COPY ./requirements.txt /app/requirements.txt
 COPY ./entrypoint.sh /app/entrypoint.sh
 COPY ./pipelines /app/pipelines/
+COPY ./model_utils /app/model_utils/
 
 WORKDIR /app
 RUN chmod +x entrypoint.sh 

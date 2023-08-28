@@ -20,12 +20,12 @@ import logging
 import pandas as pd
 from datetime import datetime
 
-from models.model_utils.loss_function import lat_lon_loss
-from models.model_utils.holiday_function import SouthAfricanHolidays
+from model_utils.loss_function import lat_lon_loss
+from model_utils.holiday_function import SouthAfricanHolidays
 
 from cassandra.cqlengine.management import sync_table
 
-from models.model_utils.constanst import (
+from model_utils.constanst import (
     CRIME_TYPE_MAPPING, HOUR_MAPPINGS, 
     HOLIDAY_MAPPINGS, WEATHER_MAPPINGS)
 
