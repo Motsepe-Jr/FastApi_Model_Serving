@@ -1,0 +1,38 @@
+context_parser: pypyr.parser.keyvaluepairs
+steps:
+  - name: pypyr.steps.contextsetf
+    in:
+      contextSetf:
+        local_dest_dir: models/neuralnetwork
+        file_keys: [
+          "exports/models/neuralnetwork/crime_density/saved_model.pb",
+          "exports/models/neuralnetwork/crime_density/fingerprint.pb",
+          "exports/models/neuralnetwork/crime_density/keras_metadata.pb",
+          "exports/models/neuralnetwork/crime_density/variables\\variables.data-00000-of-00001",
+          "exports/models/neuralnetwork/crime_density/variables\\variables.index",
+          "exports/models/neuralnetwork/crime_density_scaler.pkl"
+        ]
+  - name: pypyr.steps.py
+    in:
+      py: |
+        import boto3
+        import os
+        import pathlib
+        from dotenv import load_dotenv
+        load_dotenv()
+        local_dest_dir = os.path.expanduser(local_dest_dir)  # Expand ~ in path
+        dest_path = pathlib.Path(local_dest_dir).resolve()
+        dest_path.mkdir(exist_ok=True, parents=True)
+        session = boto3.session.Session()
+        bucket_name = os.environ.get("BUCKET_NAME")
+        region = os.environ.get("REGION_NAME")
+        endpoint_url = os.environ.get("ENDPOINT_URL") or None
+        client = session.client('s3', region_name=region, endpoint_url=endpoint_url)
+        for key in file_keys:
+            fname = pathlib.Path(key).name
+            dl_path = dest_path / key  # Use key as relative path
+            dl_path.parent.mkdir(exist_ok=True, parents=True)  
+            client.download_file(bucket_name, key, str(dl_path))
+            if "crime_density" in key and "assets" not in key and "variables" not in key:
+                assets_path = dl_path.parent / "assets"
+                assets_path.mkdir(exist_ok=True)
