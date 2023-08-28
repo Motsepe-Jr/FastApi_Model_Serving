@@ -1,6 +1,8 @@
 app/ignored/
 app/decrypted/
-models/
+models/classfication/
+models/neuralnetwork/
+models/regression/
 crime_sense/
 *.pkl
 datasets/exports/*.json
@@ -11,7 +13,7 @@ bin/
 etc/
 include/
 share/
-models/
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
