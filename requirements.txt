@@ -15,4 +15,4 @@ python-dotenv
 joblib
 lightgbm
 scikit-learn
-pydantic-settings
+pydantic==1.8.2
