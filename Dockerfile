@@ -24,7 +24,7 @@ COPY ./entrypoint.sh /app/entrypoint.sh
 
 
 WORKDIR /app
-RUN chmod +x entrypoint.sh && chmod +x decrypt.sh
+RUN chmod +x entrypoint.sh 
 
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m venv /opt/venv && /opt/venv/bin/python -m pip install -r requirements.txt
