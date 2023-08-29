@@ -39,12 +39,12 @@ steps:
             if "crime_density" in key and "assets" not in key and "variables" not in key:
                 assets_path = dl_path.parent / "assets"
                 assets_path.mkdir(exist_ok=True)
-
-        variables_folder = dest_path / "exports" / " models" / "neuralnetwork" / "crime_density" / "variables"
-        variables_folder.mkdir(exist_ok=True)
+        
+        variables_folder = dest_path / "exports/models/neuralnetwork/crime_density/variables"
+        variables_folder.mkdir(exist_ok=True, parents=True)
         for key in file_keys:
             if "variables" in key:
-                file_name = pathlib.Path(key).name.replace("variables/", "")
+                file_name = pathlib.Path(key).name.split("/")[-1]  # Get the filename without path
                 file_path = dest_path / key
                 new_file_path = variables_folder / file_name
                 file_path.rename(new_file_path)
