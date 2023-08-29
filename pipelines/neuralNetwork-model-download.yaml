@@ -40,11 +40,11 @@ steps:
                 assets_path = dl_path.parent / "assets"
                 assets_path.mkdir(exist_ok=True)
 
-        variables_folder = dest_path / "variables"
+        variables_folder = dest_path / "exports" / " models" / "neuralnetwork" / "crime_density" / "variables"
         variables_folder.mkdir(exist_ok=True)
         for key in file_keys:
             if "variables" in key:
-                file_name = pathlib.Path(key).name
+                file_name = pathlib.Path(key).name.replace("variables/", "")
                 file_path = dest_path / key
                 new_file_path = variables_folder / file_name
                 file_path.rename(new_file_path)
