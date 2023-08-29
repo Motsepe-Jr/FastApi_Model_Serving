@@ -44,7 +44,8 @@ steps:
         variables_folder.mkdir(exist_ok=True, parents=True)
         for key in file_keys:
             if "variables" in key:
-                file_name = pathlib.Path(key).name.split("/")[-1]  # Get the filename without path
+                file_name = key.split("/")[-1] 
+                new_file_name = file_name.split("\\")[-1]  
                 file_path = dest_path / key
-                new_file_path = variables_folder / file_name
+                new_file_path = variables_folder / new_file_name
                 file_path.rename(new_file_path)
