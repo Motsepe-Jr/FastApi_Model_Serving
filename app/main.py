@@ -3,9 +3,11 @@ from fastapi import FastAPI
 from typing import Optional
 
 from tensorflow.keras.models import load_model
+from tensorflow.saved_model import LoadOptions
 from sklearn.preprocessing import StandardScaler
 import lightgbm as lgb
 import numpy as np
+
 
 from fastapi import BackgroundTasks
 import concurrent.futures
@@ -81,7 +83,8 @@ def on_startup():
     global DB_SESSION, NUM_THREADS,EXECUTOR, CRIME_DENSE_MODEL, CRIME_FREQ_MODEL, CRIME_TYPE_MODEL, CRIME_TYPE_ENCODER, SA_HOLIDAYS, CRIME_DENSE_SCALER
 
     if CRIME_DENSE_PATH.exists():
-        CRIME_DENSE_MODEL = load_model(CRIME_DENSE_PATH, custom_objects={'lat_lon_loss': lat_lon_loss})
+        load_options = LoadOptions(experimental_io_device='/job:localhost')
+        CRIME_DENSE_MODEL = load_model(CRIME_DENSE_PATH, options=load_options, custom_objects={'lat_lon_loss': lat_lon_loss})
 
     if CRIME_TYPE_PATH.exists():
         CRIME_TYPE_MODEL = joblib.load(CRIME_TYPE_PATH)
