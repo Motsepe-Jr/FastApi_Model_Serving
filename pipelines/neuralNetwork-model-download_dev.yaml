@@ -30,9 +30,10 @@ steps:
         client = session.client('s3', region_name=region, endpoint_url=endpoint_url)
         for key in file_keys:
             fname = pathlib.Path(key).name
-            # Normalize the path to use forward slashes
-            key = key.replace("\\", "/")
-            dl_path = dest_path / key
+            # Use platform-specific path delimiter
+            key_parts = key.split("\\") if os.name == 'nt' else key.split("/")
+            rel_path = os.path.join(*key_parts)
+            dl_path = dest_path / rel_path
             dl_path.parent.mkdir(exist_ok=True, parents=True)  
             client.download_file(bucket_name, key, str(dl_path))
             if "crime_density" in key and "assets" not in key and "variables" not in key:
