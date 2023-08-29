@@ -2,6 +2,7 @@ app/ignored/
 app/decrypted/
 models
 crime_sense/
+notebooks/
 *.pkl
 datasets/exports/*.json
 .DS_Store

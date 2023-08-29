@@ -33,5 +33,6 @@ RUN python3 -m venv /opt/venv && /opt/venv/bin/python -m pip install -r requirem
 RUN /opt/venv/bin/python -m pypyr /app/pipelines/crimeFreq-model-download
 RUN /opt/venv/bin/python -m pypyr /app/pipelines/crimeType-model-download
 RUN /opt/venv/bin/python -m pypyr /app/pipelines/neuralNetwork-model-download
+RUN /opt/venv/bin/python -m pypyr /app/pipelines/decrypt
 
-CMD ["entrypoint.sh"]
+CMD ["./entrypoint.sh"]
