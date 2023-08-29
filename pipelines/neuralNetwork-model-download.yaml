@@ -8,8 +8,8 @@ steps:
           "exports/models/neuralnetwork/crime_density/saved_model.pb",
           "exports/models/neuralnetwork/crime_density/fingerprint.pb",
           "exports/models/neuralnetwork/crime_density/keras_metadata.pb",
-          "exports/models/neuralnetwork/crime_density/variables\\variables.data-00000-of-00001",
-          "exports/models/neuralnetwork/crime_density/variables\\variables.index",
+          "exports/models/neuralnetwork/crime_density/variables/variables.data-00000-of-00001",
+          "exports/models/neuralnetwork/crime_density/variables/variables.index",
           "exports/models/neuralnetwork/crime_density_scaler.pkl"
         ]
   - name: pypyr.steps.py
@@ -30,8 +30,6 @@ steps:
         client = session.client('s3', region_name=region, endpoint_url=endpoint_url)
         for key in file_keys:
             fname = pathlib.Path(key).name
-            # Normalize the path to use forward slashes
-            key = key.replace("\\", "/")
             dl_path = dest_path / key
             dl_path.parent.mkdir(exist_ok=True, parents=True)  
             client.download_file(bucket_name, key, str(dl_path))
