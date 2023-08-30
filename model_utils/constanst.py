@@ -13,6 +13,15 @@ CRIME_TYPE_MAPPING = {
     22: 'taxi violence', 23: 'sexual assault'
 }
 
+CRIME_TYPE_MAPPING_DENSITY = {
+    1: 'kidnapping', 2: 'gun point mugging / phone snitching',
+    3: 'theft', 4: 'car hijacking',
+    5: 'assault', 6: 'murder',
+    7: 'burglary', 8: 'rape',
+    9: 'drugs', 10: 'mall robbery', 
+    13: 'robbery',  18: 'cable theft',
+}
+
 HOUR_MAPPINGS = {
      23:'Early Morning',0:'Early Morning',1:'Early Morning',
      2: 'Early Morning',3:'Early Morning',

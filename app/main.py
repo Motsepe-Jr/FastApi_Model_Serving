@@ -27,7 +27,7 @@ from model_utils.holiday_function import SouthAfricanHolidays
 from cassandra.cqlengine.management import sync_table
 
 from model_utils.constanst import (
-    CRIME_TYPE_MAPPING, HOUR_MAPPINGS, 
+    CRIME_TYPE_MAPPING, HOUR_MAPPINGS, CRIME_TYPE_MAPPING_DENSITY, 
     HOLIDAY_MAPPINGS, WEATHER_MAPPINGS)
 
 
@@ -142,7 +142,7 @@ async def predict_crime_density(feature: schema.Feature, background_tasks: Backg
             'population': feature.population,
             'area': feature.area,
         }
-        for crime_code in CRIME_TYPE_MAPPING.keys()
+        for crime_code in CRIME_TYPE_MAPPING_DENSITY.keys()
     ]
     
     try:
@@ -157,7 +157,7 @@ async def predict_crime_density(feature: schema.Feature, background_tasks: Backg
         for index, input in enumerate(input_data):
             input['lat'] = predicted_coordinates[index][0]
             input['lon'] = predicted_coordinates[index][1]
-            input['crime_category'] = CRIME_TYPE_MAPPING[input['crime_category']]
+            input['crime_category'] = CRIME_TYPE_MAPPING_DENSITY[input['crime_category']]
             input['time'] = HOUR_MAPPINGS[input['time']]
             input['holiday'] = holidex_index
 
@@ -219,7 +219,7 @@ async def predict_crime_type(feature: schema.Feature, background_tasks: Backgrou
         background_tasks.add_task(write_to_database, Crime_Type_Table, feature.latitude, feature.longitude,
                                 feature.area, feature.population, holidex_index)
 
-        return result
+        return result[:10]
     except Exception as e:
         logger.exception("An error occurred during prediction: %s", e)
         return []
@@ -278,7 +278,7 @@ async def predict_crime_freq(feature: schema.Feature, background_tasks: Backgrou
         background_tasks.add_task(write_to_database, Crime_Freq_Table, feature.latitude, feature.longitude, 
                                 feature.area, feature.population, holidex_index)
         
-        return sorted(result, key=lambda x: x['crime_freq'], reverse=True)
+        return sorted(result, key=lambda x: x['crime_freq'], reverse=True)[:10]
     except Exception as e:
         logger.exception("An error occurred during prediction: %s", e)
         return []
