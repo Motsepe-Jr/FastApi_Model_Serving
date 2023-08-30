@@ -123,6 +123,8 @@ def write_to_database(table, latitude, longitude, area, population, holidex_inde
 async def predict_crime_density(feature: schema.Feature, background_tasks: BackgroundTasks):
 
     global SA_CURRENT_TIME, SA_HOLIDAYS, HOLIDAY_MAPPINGS, CRIME_DENSE_SCALER, CRIME_DENSE_MODEL
+
+    SA_CURRENT_TIME = datetime.now(SA_TIMEZONE)
     holidex_index = SA_HOLIDAYS.get_sa_holiday(SA_CURRENT_TIME.month, SA_CURRENT_TIME.day)
 
     input_data = [
@@ -172,6 +174,8 @@ async def predict_crime_density(feature: schema.Feature, background_tasks: Backg
 async def predict_crime_type(feature: schema.Feature, background_tasks: BackgroundTasks):
 
     global SA_CURRENT_TIME, SA_HOLIDAYS, HOLIDAY_MAPPINGS, CRIME_TYPE_MODEL, CRIME_TYPE_ENCODER
+    
+    SA_CURRENT_TIME = datetime.now(SA_TIMEZONE)
     holidex_index = SA_HOLIDAYS.get_sa_holiday(SA_CURRENT_TIME.month, SA_CURRENT_TIME.day)
 
     input_data = {
@@ -224,6 +228,7 @@ async def predict_crime_type(feature: schema.Feature, background_tasks: Backgrou
 async def predict_crime_freq(feature: schema.Feature, background_tasks: BackgroundTasks):
     
     global SA_CURRENT_TIME, SA_HOLIDAYS, HOLIDAY_MAPPINGS, CRIME_FREQ_MODEL
+    SA_CURRENT_TIME = datetime.now(SA_TIMEZONE)
     holidex_index = SA_HOLIDAYS.get_sa_holiday(SA_CURRENT_TIME.month, SA_CURRENT_TIME.day)
 
     input_data = [
