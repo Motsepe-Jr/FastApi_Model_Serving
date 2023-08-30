@@ -204,16 +204,17 @@ async def predict_crime_type(feature: schema.Feature, background_tasks: Backgrou
         PRED_PROB_CRIMETYPE, PRED_TYPE_CAT = await asyncio.get_event_loop().run_in_executor(EXECUTOR, 
                                                                                             predict_in_thread)
         
-        result =  { category:  probability
-                for category, probability in 
-                sorted(zip(PRED_TYPE_CAT, PRED_PROB_CRIMETYPE), 
-                    key=lambda x: x[1], reverse=True)}
-
         input_data_df['time'] = HOUR_MAPPINGS[input_data['time'][0]]
         input_data_df['holiday'] = holidex_index
 
-
-        result['prediction_explainability'] = input_data_df.squeeze().to_dict()
+        result =  { category: probability
+                for category, probability in 
+                sorted(zip(PRED_TYPE_CAT, PRED_PROB_CRIMETYPE), 
+                    key=lambda x: x[1], reverse=True)
+                }
+        
+        result =  [[crime_type, prob, input_data_df.to_dict(orient='list')] for crime_type, prob in result.items()]
+        
 
         background_tasks.add_task(write_to_database, Crime_Type_Table, feature.latitude, feature.longitude,
                                 feature.area, feature.population, holidex_index)
