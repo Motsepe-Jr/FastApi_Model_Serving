@@ -17,7 +17,6 @@ RUN python -m pip install cassandra-driver
 RUN apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-COPY .env /app/.env
 COPY ./app /app/app
 COPY ./requirements.txt /app/requirements.txt
 COPY ./entrypoint.sh /app/entrypoint.sh
